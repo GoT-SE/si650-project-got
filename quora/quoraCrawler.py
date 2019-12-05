@@ -4,7 +4,7 @@ import time
 import os
 
 DEBUG = 1
-chromedriverpath = "/home/tianyi/.local/chromedriver-Linux64"
+
 query = "game of thrones"
 
 def crawlTopicHierarchy():
