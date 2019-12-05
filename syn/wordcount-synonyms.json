@@ -390,7 +390,7 @@
 		{
 			"accepted": "Oberyn Martell",
 			"alt": ["Oberyn",
-				"Red Viper"
+				"Red viper"
 			]
 		},
 		{
@@ -704,6 +704,46 @@
 		{
 			"accepted": "Xaro Xhoan Daxos",
 			"alt": ["Xaro"]
+		},
+		{
+			"accepted": "Targaryen",
+			"alt": ["Dragon"]
+		},
+		{
+			"accepted": "Lannister",
+			"alt": ["Lion"]
+		},
+		{
+			"accepted": "Stark",
+			"alt": ["Direwolf",
+					"Wolf"
+			]
+		},
+		{
+			"accepted": "Baratheon",
+			"alt": ["Stag",
+					"Deer"
+			]
+		},
+		{
+			"accepted": "Tully",
+			"alt": ["Trout"]
+		},
+		{
+			"accepted": "Tyrell",
+			"alt": ["Rose"]
+		},
+		{
+			"accepted": "Arryn",
+			"alt": ["Falcon"]
+		},
+		{
+			"accepted": "Greyjoy",
+			"alt": ["Kraken"]
+		},
+		{
+			"accepted": "Martell",
+			"alt": ["Spear"]
 		}
 	],
 	"groups":[
