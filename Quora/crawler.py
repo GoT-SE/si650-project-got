@@ -52,24 +52,30 @@ def CrawlReview():
     urls = f_url.readlines()
     for idx, url in enumerate(urls):
         url = "http://www.quora.com" + url.strip('\n') + "?share=1"
-        try:
-            os.environ["webdriver.chrome.driver"] = "chromedriver"
-            browser = webdriver.Chrome()
-            browser.get(url)
+        # try:
+        os.environ["webdriver.chrome.driver"] = "chromedriver"
+        browser = webdriver.Chrome()
+        browser.get(url)
+        src_updated = browser.page_source
+        src = ""
+        while src != src_updated:
+            time.sleep(1)
+            src = src_updated
+            more_link = browser.find_elements_by_class_name("ui_qtext_more_link")
+            for each in more_link:
+                each.click()
+                time.sleep(1)
+            browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             src_updated = browser.page_source
-            src = ""
-            while src != src_updated:
-                time.sleep(3)
-                src = src_updated
-                browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-                src_updated = browser.page_source
-            html_source = browser.page_source
-            browser.quit()
-            f = open("test.txt", "w")
-            f.write(html_source)
-            f.close()
-        except:
-            pass
+        html_source = browser.page_source
+        browser.quit()
+        f = open("test.html", 'w')
+        f.write(html_source)
+            # soup = BeautifulSoup(html_source, 'html5lib')
+            # answer_divs = soup.find_all("div", class_="u-serif-font-main--regular")
+            # print(len(answer_divs))
+        # except:
+        #     pass
         break
 
 
