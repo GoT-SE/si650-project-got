@@ -48,35 +48,42 @@ def ParserSearch():
 def CrawlReview():
     f_name = open("file_name.txt","r")
     f_url = open("url_list_m.txt","r")
-    questions = f_name.readlines()
+    f_review = open("review-by-line.dat","w")
+    episodes = f_name.readlines()
     urls = f_url.readlines()
     for idx, url in enumerate(urls):
         url = "http://www.quora.com" + url.strip('\n') + "?share=1"
-        # try:
-        os.environ["webdriver.chrome.driver"] = "chromedriver"
-        browser = webdriver.Chrome()
-        browser.get(url)
-        src_updated = browser.page_source
-        src = ""
-        while src != src_updated:
-            time.sleep(1)
-            src = src_updated
-            more_link = browser.find_elements_by_class_name("ui_qtext_more_link")
-            for each in more_link:
-                each.click()
-                time.sleep(1)
-            browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        try:
+            os.environ["webdriver.chrome.driver"] = "chromedriver"
+            browser = webdriver.Chrome()
+            browser.get(url)
             src_updated = browser.page_source
-        html_source = browser.page_source
-        browser.quit()
-        f = open("test.html", 'w')
-        f.write(html_source)
-            # soup = BeautifulSoup(html_source, 'html5lib')
-            # answer_divs = soup.find_all("div", class_="u-serif-font-main--regular")
-            # print(len(answer_divs))
-        # except:
-        #     pass
-        break
+            src = ""
+            while src != src_updated:
+                time.sleep(2)
+                src = src_updated
+                more_link = browser.find_elements_by_class_name("ui_qtext_more_link")
+                for each in more_link:
+                    try:
+                        each.click()
+                        time.sleep(2)
+                    except:
+                        pass
+                browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                src_updated = browser.page_source
+            html_source = browser.page_source
+            browser.quit()
+            soup = BeautifulSoup(html_source, 'html5lib')
+            answer_divs = soup.find_all("div", class_="ui_qtext_expanded")
+            for answer in answer_divs:
+                review = re.sub('/<.*>/', ' ', answer.text)
+                review = re.sub('\n', ' ', review)
+                f_review.write(episodes[idx].strip('\n')+'\t'+review+'\n')
+        except:
+            pass
+    f_review.close()
+    f_name.close()
+    f_url.close()
 
 
 if __name__ == "__main__":
