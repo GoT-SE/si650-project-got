@@ -1,5 +1,4 @@
 # si650-project-got
 
-## 2019/12/6
-* review-by-line.dat: review of some episodes from Quora
-* summary-by-line.dat: summary from Fandom and Wikipedia
+## 2019/12/7
+To process data quickly, build '''got.json''' that includes script, summary and reviews. Code in 'Src/keyword.py/build_dataset'.
