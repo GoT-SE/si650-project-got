@@ -1,3 +1,12 @@
+# vscode
+.vscode/
+
+# mac
+.DS_Store/
+
+# data
+Data/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
