@@ -1,4 +1,5 @@
 import json
+from fuzzywuzzy import fuzz, process
 from sklearn.feature_extraction.text import TfidfVectorizer
 import nltk
 from nltk.corpus import stopwords
@@ -17,22 +18,23 @@ def GetScriptDataByLines():
     return docs
 
 # return: [(s01e01, 'blablabla')]
-def GetScriptSet(docs, query, top_n=8):
+def GetScriptSet(docs, data, query, top_n=8):
     # case insensitive
     bests = process.extract(query, docs, scorer=fuzz.partial_ratio, limit = top_n)
     res = []
     for (line, score) in bests:
         x = line.split('\t')
-        res.append((x[0].strip(), x[1].strip()))
+        res.append((data[x[0]]['id'], data[x[0]]['name'], x[1].strip()))
     return res
 
 # return vec, tfidf
 def GetModel(data, eps):
-    if os.path.exists('trained/vec.pkl') and os.path.exists('trained/tfidf.pkl'):
+    if os.path.exists('../../Src/trained/vec.pkl') and os.path.exists('../../Src/trained/tfidf.pkl'):
         tfidf = pickle.load(open("../../Src/trained/tfidf.pkl", "rb"))
         vec = pickle.load(open("../../Src/trained/vec.pkl", "rb"))
         return vec, tfidf
     
+    print('rebuild model...')
     def load_episode_data(data):
         if data == None: return []
         sents = clean_text(sent_tokenize(data))
@@ -76,13 +78,15 @@ def GetEps():
     return eps
 
 # return: [('s01e01', 'Winter is Coming', 'description...')]
-def GetEpisodeSet(data, eps, vec, tfidf, query):
+def GetEpisodeSet(data, eps, vec, tfidf, query, topn=10):
     from sklearn.metrics.pairwise import linear_kernel
     res = []
     new_doc = [query]
     response = vec.transform(clean_text(new_doc))
     cosine_simi = linear_kernel(response, tfidf).flatten()
-    related_docs_indices = cosine_simi.argsort()[:-(topn+1):-1]
+    related_docs_indices = cosine_simi.argsort()[:-73:-1]
+    related_docs_indices = [idx for idx in related_docs_indices if cosine_simi[idx] >= 0.035]
+    related_docs_indices = related_docs_indices[:topn]
     for idx in related_docs_indices:
         res.append((data[str(idx)]['id'], eps[idx]['episodeTitle'], eps[idx]['episodeDescription']))
     

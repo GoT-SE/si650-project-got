@@ -98,9 +98,13 @@ def main(query, topn):
     new_doc = [query]
     response = vec.transform(clean_text(new_doc))
     cosine_simi = linear_kernel(response, tfidf).flatten()
-    related_docs_indices = cosine_simi.argsort()[:-(topn+1):-1]
+    related_docs_indices = cosine_simi.argsort()[:-73:-1]
+    related_docs_indices = [idx for idx in related_docs_indices if cosine_simi[idx] >= 0.035]
+    related_docs_indices = related_docs_indices[:topn]
+    # related_docs_indices = [idx for idx in related_docs_indices if cosine_simi[idx] >= 0.035]
     for i, idx in enumerate(related_docs_indices):
-        print('{}. {}-<{}>:\n{}\n'.format(i+1, data[str(idx)]['id'], eps[idx]['episodeTitle'], eps[idx]['episodeDescription']))
+        # print('{}. {}'.format(i+1, data[str(idx)]['id']))
+        print('{}. {}-<{}>: {}\n{}\n'.format(i+1, data[str(idx)]['id'], eps[idx]['episodeTitle'], cosine_simi[idx], eps[idx]['episodeDescription']))
 
 if __name__ == '__main__':
     main(sys.argv[1], int(sys.argv[2]))
