@@ -79,7 +79,7 @@ def getModel(data):
         docs.append(toapp)
 
 
-    text_vector = TfidfVectorizer(sublinear_tf=True, max_features=10000, ngram_range=(1,2), analyzer='word')
+    text_vector = TfidfVectorizer(sublinear_tf=True, max_features=10000, max_df=0.85, ngram_range=(1,2), analyzer='word')
     tfidf = text_vector.fit_transform(docs)
 
     pickle.dump(tfidf, open("trained/tfidf.pkl", "wb"))
