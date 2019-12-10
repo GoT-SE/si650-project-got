@@ -1,0 +1,89 @@
+<head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="linkers/linker.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    
+      <div style="background-color: white; padding:0; margin: 0;" class="jumbotron">
+          <div class="text-center">
+              <img style="width: 50%" src="img/header_inv.jpg" class="rounded" alt="Header GoT">
+            </div>
+      </div>
+
+      <div style="background-color: white; padding:0; margin: 20;" class="jumbotron">
+        <div class="text-center">
+            <img style="width: 20%" src="img/script4.png" class="rounded" alt="Header GoT">
+          </div>
+    </div>
+
+    <div class="input-group" style="width: 70%; margin: 0 auto;">
+        <input type="text" class="form-control" id="query-input" placeholder="Enter Query for Script Here...">
+        <span class="input-group-btn">
+          <button class="btn btn-success" onclick="get_query('script')">Go!</button>
+        </span>
+    </div>
+
+    <form class="form-inline">
+        <div style="background-color: white; padding:0; margin:10 auto;" class="form-group">
+            <label style="margin-right: 10;">Select number of results: </label> 
+            <div class="form-check-inline">
+              <label class="form-check-label btn-default">
+                <input type="radio" class="form-check-input" name="optradio" onclick="set_topn(3)">3
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label btn-default">
+                <input type="radio" class="form-check-input" name="optradio" onclick="set_topn(5)">5
+              </label>
+            </div>
+            <div class="form-check-inline btn-default">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="optradio" onclick="set_topn(10)">10
+                </label>
+              </div>
+              <div class="form-check-inline btn-default">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="optradio" onclick="set_topn(1000)">all
+                </label>
+              </div>
+        </div>
+      </form>
+
+    <div class="form-group" style="margin: 20px 0px">
+      <h5 style="margin: 10px 10px">Sample queries</h5>
+        <select multiple class="form-control" id="sampleScenes">
+          <option onclick="copy_from_sample('red viper head crush')">red viper head crush</option>
+          <option onclick="copy_from_sample('Tyrion confession speech on death trial')">Tyrion confession speech on death trial</option>
+          <option onclick="copy_from_sample('Ramsay is fed to his dogs')">Ramsay is fed to his dogs</option>
+          <option>...</option>
+        </select>
+    </div>
+
+    <div class="form-group" style="margin: 30px 0px">
+        <h5 style="margin: 10px 10px">Result lists</h5>
+        <textarea style="width: 100%;" id="query-result" placeholder="" readonly></textarea>
+      </div>
+
+    <div class="fixed-bottom">
+      <div class="input-group" style="height: 40px">
+        <span class="input-group-btn" style="width: 50%">
+          <button class="btn btn-info">
+            <a style="color:white" href="gui.html">Back to main menu</a>
+          </button>
+        </span>
+        <span class="input-group-btn" style="width: 50%">
+          <button class="btn btn-warning">
+            <a style="color:white" href="scene.html">Find Scene</a>
+          </button>
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- add at the end to load after page -->
+  <script src="linkers/auto_result.js"></script>
+<body>

@@ -1,5 +1,11 @@
 let {PythonShell} = require('python-shell')
 var path = require("path")
+var topn = 3
+
+function set_topn(n) {
+  topn = n
+  console.log(topn)
+}
 
 function get_query(cmd) {
 
@@ -7,7 +13,7 @@ function get_query(cmd) {
   
   var options = {
     scriptPath : path.join(__dirname, '/../engine/'),
-    args : [query, cmd]
+    args : [query, cmd, topn]
   }
 
   let pyshell = new PythonShell('main.py', options);
@@ -18,7 +24,7 @@ function get_query(cmd) {
     object.style.height = object.scrollHeight + 'px';
     console.log(message)
   })
-  document.getElementById("query-input").value = "";
+  // document.getElementById("query-input").value = "";
 }
 
 function copy_from_sample(query) {

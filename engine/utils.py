@@ -13,7 +13,8 @@ import pickle
 
 # return docs
 def GetScriptDataByLines():
-    with open('../../Data/got-new-by-line.dat', 'r') as f:
+    # with open('../../Data/got-new-by-line.dat', 'r') as f:
+    with open('Data/got-new-by-line.dat', 'r') as f:
         docs = f.read().split('\n')
     return docs
 
@@ -29,9 +30,12 @@ def GetScriptSet(docs, data, query, top_n=8):
 
 # return vec, tfidf
 def GetModel(data, eps):
-    if os.path.exists('../../Src/trained/vec.pkl') and os.path.exists('../../Src/trained/tfidf.pkl'):
-        tfidf = pickle.load(open("../../Src/trained/tfidf.pkl", "rb"))
-        vec = pickle.load(open("../../Src/trained/vec.pkl", "rb"))
+    # if os.path.exists('../../Src/trained/vec.pkl') and os.path.exists('../../Src/trained/tfidf.pkl'):
+        # tfidf = pickle.load(open("../../Src/trained/tfidf.pkl", "rb"))
+        # vec = pickle.load(open("../../Src/trained/vec.pkl", "rb"))
+    if os.path.exists('Src/trained/vec.pkl') and os.path.exists('Src/trained/tfidf.pkl'):
+        tfidf = pickle.load(open("Src/trained/tfidf.pkl", "rb"))
+        vec = pickle.load(open("Src/trained/vec.pkl", "rb"))
         return vec, tfidf
     
     print('rebuild model...')
@@ -61,19 +65,23 @@ def GetModel(data, eps):
     vec = TfidfVectorizer(sublinear_tf=True, max_features=10000, max_df=0.85, ngram_range=(1,2), analyzer='word')
     tfidf = vec.fit_transform(docs)
 
-    pickle.dump(tfidf, open("../../Src/trained/tfidf.pkl", "wb"))
-    pickle.dump(vec, open("../../Src/trained/vec.pkl", "wb"))
+    # pickle.dump(tfidf, open("../../Src/trained/tfidf.pkl", "wb"))
+    # pickle.dump(vec, open("../../Src/trained/vec.pkl", "wb"))
+    pickle.dump(tfidf, open("Src/trained/tfidf.pkl", "wb"))
+    pickle.dump(vec, open("Src/trained/vec.pkl", "wb"))
     return vec, tfidf
 
 # return: data
 def GetData():
-    with open('../../Data/got-new.json', 'r') as f_data:
+    # with open('../../Data/got-new.json', 'r') as f_data:
+    with open('Data/got-new.json', 'r') as f_data:
         data = json.loads(f_data.read())
     return data
 
 # return eps
 def GetEps():
-    with open('../../Data/episodes.json', 'r') as f:
+    # with open('../../Data/episodes.json', 'r') as f:
+    with open('Data/episodes.json', 'r') as f:
         eps = json.loads(f.read())['episodes']
     return eps
 
@@ -94,7 +102,8 @@ def GetEpisodeSet(data, eps, vec, tfidf, query, topn=10):
 
 def set_stopwords():
     stop = set(stopwords.words("english"))
-    for line in open("../../Data/lemur-stopwords.txt"):
+    # for line in open("../../Data/lemur-stopwords.txt"):
+    for line in open("Data/lemur-stopwords.txt"):
         stop.add(line.strip('\n'))
     return stop
 
