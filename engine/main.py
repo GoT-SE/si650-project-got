@@ -1,6 +1,6 @@
 import sys
 from utils import GetData, GetEps, GetModel, GetScriptDataByLines
-from utils import GetScriptSet, GetEpisodeSet
+from utils import GetScriptSet, GetEpisodeSet, QueryPreprocess
 
 def main(query="you know nothing", cmd="script", top_n=5):
     if len(sys.argv) > 2:
@@ -11,6 +11,7 @@ def main(query="you know nothing", cmd="script", top_n=5):
 
     data = GetData()
     if cmd == "scene": # search for scene
+        query = QueryPreprocess(query)
         eps = GetEps()
         vec, tfidf = GetModel(data, eps)
         sceneSet = GetEpisodeSet(data, eps, vec, tfidf, query, top_n)

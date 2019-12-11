@@ -346,7 +346,9 @@
 		},
 		{
 			"accepted": "Melisandre",
-			"alt": ["Melisdandre"]
+			"alt": ["Melisdandre",
+				"Red Woman"
+			]
 		},
 		{
 			"accepted": "Mhaegen",

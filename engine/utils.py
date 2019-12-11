@@ -134,3 +134,37 @@ def clean_text(texts): # list of strings
         if text != '':
             res.append(text)
     return res
+
+# extracr a name from a sentence
+def extractNames(sentence):
+    tagged_sentences = nltk.pos_tag(nltk.word_tokenize(sentence))
+    
+    names = []
+    for chunk in nltk.ne_chunk(tagged_sentences):
+        if type(chunk) == nltk.tree.Tree:
+            if chunk.label() in ['GPE']:
+                names.append(' '.join([c[0] for c in chunk]))
+    return names
+
+# take `query`
+# replace the nicknames/first name with standard name
+def synSubstitution(query):
+    with open('Data/synonyms.json', 'r') as f:
+        syns = json.load(f)['synonyms']
+    
+    syns = [json.dumps(syn) for syn in syns]
+    names = extractNames(query)
+    for name in names:
+        best = process.extract(name, syns, scorer=fuzz.token_set_ratio, limit=1)[0]
+        if best[1] > 80:
+            query += ' ' + json.loads(best[0])['accepted']
+    
+    return query
+
+# take `query`
+# first clean text
+# replace the nicknames/first name with standard name
+def QueryPreprocess(query):
+    query = synSubstitution(query) # return standard person name
+    query = clean_text([query])[0] # remove punctuation and lower the letters
+    return query
